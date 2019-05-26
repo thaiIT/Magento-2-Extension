@@ -1,0 +1,19 @@
+<?php $dataHelper = $this->helper('MGS\RealReview\Helper\Data'); ?>
+<div id="review-form-edit">
+    <?php echo $block->getChildHtml('review-popup-edit-form-content'); ?>
+</div>
+<script type="text/x-magento-init">
+    {
+        "#review-form-edit": {
+            "MGS_RealReview/js/review-edit-popup": {
+                "popupTitle": "<?= __('Edit Review') ?>",
+                <?php if ($dataHelper->useAjax()): ?>
+                    "useAjax":"yes",
+                    "urlListAjax":"<?= $this->getUrl(); ?>review/product/listAjax/id/<?= $this->getProId() ?>",
+                <?php endif ?>
+                "innerWidth": "700",
+                "productId":"<?= $this->getProId() ?>"
+            }
+        }
+    }
+</script>

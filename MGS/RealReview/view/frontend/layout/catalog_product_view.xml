@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="MGS_RealReview::css/custom.css" />
+    </head>
+    <body>
+        <referenceContainer name="before.body.end">
+            <block class="MGS\RealReview\Block\Product\View\Editpopup" name="review-popup-edit" template="MGS_RealReview::product/view/editpopup.phtml">
+                <block class="MGS\RealReview\Block\Product\View\Edit\Content" name="review-popup-edit-form-content" template="MGS_RealReview::product/view/edit/review_edit_form.phtml">
+                    <arguments>
+                        <argument name="jsLayout" xsi:type="array">
+                            <item name="components" xsi:type="array">
+                                <item name="review-form" xsi:type="array">
+                                    <item name="component" xsi:type="string">Magento_Review/js/view/review</item>
+                                </item>
+                            </item>
+                        </argument>
+                    </arguments>
+                </block>
+            </block>
+            <block class="Magento\Framework\View\Element\Template" name="review-delete-ajax" template="MGS_RealReview::product/view/js_delete.phtml" />
+            <block class="Magento\Framework\View\Element\Template" name="review-message-popup-ajax" template="MGS_RealReview::product/view/review_message_popup_ajax.phtml" />
+        </referenceContainer>
+    </body>
+</page>

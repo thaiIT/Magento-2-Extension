@@ -1,0 +1,13 @@
+<?php if ($block->getAlreadyReviewApproved()): ?>
+    <div class="message success" id="review-add">
+        <div>
+            <?php echo __('You have rated this product.') ?>
+        </div>
+    </div>
+<?php else: ?>
+    <div class="message success" id="review-add">
+        <div>
+            <?php echo __('You submitted your review for moderation.') ?>
+        </div>
+    </div>
+<?php endif ?>

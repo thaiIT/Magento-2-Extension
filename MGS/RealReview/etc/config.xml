@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Core/etc/config.xsd">
+    <default>
+        <mgs_realreview>
+            <general>
+                <enable>1</enable>
+                <use_ajax>0</use_ajax>
+                <auto_approve>0</auto_approve>
+                <number_review>5</number_review>
+            </general>
+        </mgs_realreview>
+    </default>
+</config>

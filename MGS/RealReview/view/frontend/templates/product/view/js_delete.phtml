@@ -1,0 +1,10 @@
+<?php $dataHelper = $this->helper('MGS\RealReview\Helper\Data'); ?>
+<?php if (($dataHelper->customerLoggedIn()) && ($dataHelper->isEnable()) && ($dataHelper->useAjax())): ?>
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "MGS_RealReview/js/review-delete": {}
+            }
+        }
+    </script>
+<?php endif ?>

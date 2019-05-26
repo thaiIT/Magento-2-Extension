@@ -1,0 +1,25 @@
+<?php /** @var $block \MGS\RealReview\Block\Form * */ ?>
+<?php $dataHelper = $this->helper('MGS\RealReview\Helper\Data'); ?>
+<?php
+$url  = $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
+$login_url = $this->getUrl('customer/account/login', array('referer' => base64_encode($url)));
+$register_url = $this->getRegisterUrl();
+?>
+<?php if ($dataHelper->customerLoggedIn()): ?>
+    <div class="block review-add">
+        <div class="block-title"><strong><?= $block->escapeHtml(__('Write Your Own Review')) ?></strong></div>
+        <div class="block-content">
+            <div class="message info notpurchased" id="review-form">
+                <div>
+                    <?php echo __('You can not add the review on this product because you have not purchased this product yet.'); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php else: ?>
+    <div class="message info notlogged" id="review-form">
+        <div>
+            <?php echo __('Only registered users can write reviews. Please <a href="%1">Sign in</a> or <a href="%2">create an account</a>', $login_url, $register_url) ?>
+        </div>
+    </div>
+<?php endif ?>
