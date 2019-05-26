@@ -1,0 +1,60 @@
+<style>
+	.content{
+		width: 1170px;
+		margin: auto;
+		margin-top: 50px;
+		display: flex;
+		justify-content: space-around;
+	}
+	.khoi-1,.khoi-2,.khoi-3,.khoi-4,.khoi-5{
+		height: 50px;
+		width: 50px;
+		background: #c03737;
+	}
+	.khoi-2{
+		background: #5c5ca9;
+	}
+	.khoi-3{
+		background: #d17c34;
+	}
+	.khoi-4{background: #4a994a;}
+	.khoi-5{background: orange}
+
+</style>
+<div class="content">
+	<div class="khoi-1"></div>
+	<div class="khoi-1"></div>
+	<div class="khoi-1"></div>
+</div>
+<div class="content">
+	<div class="khoi-2"></div>
+</div>
+<div class="content">
+	<div class="khoi-3"></div>
+</div>
+<div class="content">
+	<div class="khoi-4"></div>
+	<div class="khoi-4"></div>
+	<div class="khoi-4"></div>
+</div>
+<div class="content">
+	<div class="khoi-5"></div>
+	<div class="khoi-5"></div>
+	<div class="khoi-5"></div>
+</div>
+
+<script>
+	require(['jquery','tweenmax'],function($,TweenMax){
+		$(document).ready(function() {
+			var tl = new TimelineMax({});
+			// hieu ung 1 goc la 0
+			tl.to($('.khoi-1'),1,{x:200,opacity:0});
+			// hieu ung 2 cach 1s
+			tl.from($('.khoi-2'),2,{scale:2,opacity:0.5,delay:1});
+			// hieu ung 3 cach 1s
+			tl.fromTo($('.khoi-3'),2,{y:200,opacity:0.3,delay:2},{y:-200,opacity:1});
+			tl.staggerTo($('.khoi-4'),1,{y:150,opacity:0},0.2);
+			tl.staggerFrom($('.khoi-5'),2,{y:150,opacity:0,ease: Bounce.easeOut},0.5);
+		});
+	});
+</script>

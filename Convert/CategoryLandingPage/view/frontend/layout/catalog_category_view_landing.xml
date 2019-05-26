@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <attribute name="class" value="category-landing-page" />
+        <referenceContainer name="content">
+            <block class="Magento\Catalog\Block\Category\View" template="Convert_CategoryLandingPage::landing-page.phtml" name="category.landing.page" />
+            <referenceBlock name="category.products" remove="true"/>
+        </referenceContainer>
+        <referenceBlock name="catalog.leftnav" remove="true" />
+    </body>
+</page>
