@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="thaihoang_staff_widget" class="THAIHOANG\Staff\Block\Staff\Widget\Posts">
+        <label translate="true">Staff Widget</label>
+        <description translate="true">Display Staff Information</description>
+        <parameters>
+            <parameter name="recordrows" xsi:type="text" visible="true">
+                <label translate="true">Record on rows</label>
+            </parameter>
+            <parameter name="recordshow" xsi:type="text" visible="true">
+                <label translate="true">Input id record to display</label>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

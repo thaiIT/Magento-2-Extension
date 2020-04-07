@@ -1,0 +1,18 @@
+<?php if ($block->inCustomerGroup()): ?>
+    <div id="fsbheader-component" data-bind="scope:'fsbheadercomponent'">
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <script type="text/x-magento-init">
+        {
+            "#fsbheader-component": {
+                "Magento_Ui/js/core/app": {
+                    "components": {
+                        "fsbheadercomponent": {
+                            "component": "MGS_FShippingBar/js/fsbheader-component"
+                        }
+                    }
+                }
+            }
+        }
+        </script>
+    </div>
+<?php endif ?>

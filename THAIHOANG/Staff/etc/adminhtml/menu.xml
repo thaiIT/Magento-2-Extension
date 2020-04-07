@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<add id="THAIHOANG_Staff::staff" title="Staff Manager" action="staff" module="THAIHOANG_Staff" sortOrder="10" resource="THAIHOANG_Staff::staff"/>
+		<add id="THAIHOANG_Staff::staff_list" title="List All Staff" action="staff/index" module="THAIHOANG_Staff" sortOrder="1" resource="THAIHOANG_Staff::staff" parent="THAIHOANG_Staff::staff"/>
+		<add id="THAIHOANG_Staff::staff_save" title="Add New Staff" action="staff/index/add" module="THAIHOANG_Staff" sortOrder="2" resource="THAIHOANG_Staff::staff_save" parent="THAIHOANG_Staff::staff"/>
+	</menu>
+</config>

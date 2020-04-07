@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<page layout="admin-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+   <update handle="editor" />
+   <body>
+       <referenceContainer name="left">
+           <block class="THAIHOANG\Staff\Block\Adminhtml\Staff\Edit\Tabs" name="THAIHOANG_Staff.edit.tabs" />
+       </referenceContainer>
+   		<referenceContainer name="content">
+            <block class="THAIHOANG\Staff\Block\Adminhtml\Staff\Edit" name="THAIHOANG_Staff.edit" />
+        </referenceContainer>
+   </body>
+</page>

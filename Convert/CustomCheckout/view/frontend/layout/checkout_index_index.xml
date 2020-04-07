@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="checkout.header.wrapper">
+            <block class="Magento\Framework\View\Element\Template" name="checkout.go.back" before="-" template="Convert_CustomCheckout::back-to-bag.phtml" />
+        </referenceContainer>
+        <referenceBlock name="checkout.root">
+            <arguments>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="checkout" xsi:type="array">
+                            <item name="children" xsi:type="array">
+                                <item name="steps" xsi:type="array">
+                                    <item name="children" xsi:type="array">
+                                        <item name="checkout-login-step" xsi:type="array">
+                                            <item name="component" xsi:type="string">Convert_CustomCheckout/js/view/checkout-login-step</item>
+                                            <item name="sortOrder" xsi:type="string">1</item>
+                                            <item name="children" xsi:type="array">
+                                                <!--add here child component declaration for your step-->
+                                            </item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>

@@ -1,0 +1,52 @@
+<style>
+    #team .col {
+        float: left;
+        width: 250px;
+        border: 1px solid #0cc;
+        padding: 3px;
+        margin-left: 10px;
+        height: 250px;
+        margin-top: 10px;
+    }
+
+    .col img {
+        border: 1px solid orange;
+        padding: 3px;
+        width: 150px;
+        height: 150px;
+        margin-left: 45px;
+    }
+
+    .cls {
+        clear: left;
+        margin-bottom: 5px;
+    }
+
+    .col h4 {
+        color: white;
+        background: green;
+        text-align: center;
+        padding: 3px;
+    }
+</style>
+
+<div id="team">
+    <?php
+    $break = $this->getData("recordrows");
+    $urlMedia = $this->getBaseUrlMedia();
+    $staffs = $this->getData("staffs");
+    $i = 1;
+    foreach ($staffs as $staff) {
+        $i++;
+        echo "<div class='col'>";
+        echo "<h4>" . $staff['name'] . "</h4>";
+        echo "<img src='$urlMedia/" . $staff['avatar'] . "' width='150' height='150' />";
+        echo "<p align='center'><b>" . $staff['position'] . "</b></p>";
+        echo "</div>";
+        if ($i > $break) {
+            $i = 1;
+            echo "<div class='cls'></div>";
+        }
+    }
+    ?>
+</div>

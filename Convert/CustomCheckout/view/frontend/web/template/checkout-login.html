@@ -1,0 +1,85 @@
+<li data-bind="fadeVisible: isVisible, attr: { id: stepCode }">
+    <div id="checkout-step-login" class="step-content" data-role="content">
+
+        <!-- ko if: isLogedIn -->
+            <p data-bind="i18n: 'You are Logged-in'"></p>
+            <form data-bind="submit: navigateToNextStep" novalidate="novalidate">
+                <div class="actions-toolbar">
+                    <div class="primary">
+                        <button data-role="opc-continue" type="submit" class="button action continue primary">
+                            <span data-bind="i18n: 'Skip & Next'"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        <!-- /ko -->
+
+        <!-- ko ifnot: isLogedIn -->
+            <div class="messages"></div>
+            <div class="note-message">
+                <span class="icon"><i class="fal fa-exclamation-triangle"></i></span>
+                <span data-bind="i18n: 'Have you done your hearing test or have an audiogram?'" class="text-mess"></span>
+                <a data-bind="attr: { href: takeTestUrl }"><span data-bind="i18n: 'Take Test'" class="text-mess"></span></a>
+            </div>
+            <div class="step-one-block">
+                <div class="checkout-login-block">
+                    <h2 data-bind="i18n: 'Sign in to your account'"></h2>
+                    <form data-role="login" data-bind="submit:login" method="post">
+                        <div class="fieldset" data-bind="attr: {'data-hasrequired': $t('* Required Fields')}">
+                            <div class="field field-email required">
+                                <label class="label" for="login-email"><span data-bind="i18n: 'Email address'"></span></label>
+                                <div class="control">
+                                    <input type="email"
+                                           class="input-text"
+                                           id="login-email-custom"
+                                           name="username"
+                                           data-bind="attr: {autocomplete: true}"
+                                           data-validate="{required:true, 'validate-email':true}" />
+                                </div>
+                            </div>
+                            <div class="field field-password required">
+                                <label for="login-password" class="label"><span data-bind="i18n: 'Password'"></span></label>
+                                <div class="control">
+                                    <input type="password"
+                                           class="input-text"
+                                           id="login-password-custom"
+                                           name="password"
+                                           data-bind="attr: {autocomplete: true}"
+                                           data-validate="{required:true}"
+                                           autocomplete="off"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="actions-toolbar">
+                            <div class="primary">
+                                <button type="submit" class="action action-login secondary"><span data-bind="i18n: 'Login'"></span></button>
+                            </div>
+                            <div class="secondary">
+                                <a class="action action-remind" data-bind="attr: { href: forgotPasswordUrl }">
+                                    <span data-bind="i18n: 'Forgot password?'"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="checkout-register-block">
+                    <h2 data-bind="i18n: 'Create an account'"></h2>
+                    <ul>
+                        <li data-bind="i18n: 'Check out faster'"></li>
+                        <li data-bind="i18n: 'Save your shipping & billing addresses'"></li>
+                        <li data-bind="i18n: 'Access your order history'"></li>
+                        <li data-bind="i18n: 'Track new orders'"></li>
+                    </ul>
+                    <div class="actions-toolbar">
+                        <div class="primary">
+                            <a class="action primary action-create-account" data-bind="attr: { href: registerUrl }">
+                                <span data-bind="i18n: 'Create an account'"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- /ko -->
+    </div>
+</li>

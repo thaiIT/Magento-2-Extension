@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+    	<referenceBlock name="head.additional">
+            <block class="Magento\Framework\View\Element\Template" name="generate_css" template="MGS_FShippingBar::generateCss.phtml"/>
+        </referenceBlock>
+        <referenceContainer name="page.wrapper">
+            <referenceContainer name="header.container">
+                <block class="MGS\FShippingBar\Block\Fsbheader" ifconfig="mgs_fshippingbar/general/enable" template="MGS_FShippingBar::fsbheader.phtml" name="fsb.header" after="-" cacheable="false" />
+            </referenceContainer>    
+        </referenceContainer>
+    </body>
+</page>

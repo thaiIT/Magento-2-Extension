@@ -1,0 +1,82 @@
+<?php $lists = $block->getListCollection(); ?>
+<div class="page-head"> 
+	<div class="popup-video">
+		<script charset="ISO-8859-1" src="//fast.wistia.com/assets/external/E-v1.js"async></script>
+		<div class="wistia_embed wistia_async_zi009m7mns popover=true popoverContent=html">
+			<a class="button-what-sublogin" href="#"><i class="far fa-play-circle"></i><span><?php echo __(' Watch Fav List Features'); ?></span></a>
+		</div>
+	</div>
+	<div class="link-to-new">
+		<a href="<?php echo $this->getUrl('amlist/index/addList') ?>" class="button btn"><span><?php echo __('+ Create New List') ?></span></a>
+	</div>
+</div>
+<?php if (count($lists)): ?>
+	<table class="list-table">
+		<thead>
+			<tr>
+				<th colspan="2"><?= __("List Name") ?></th>
+				<th class="total_items"><?= __("Total Item(s)") ?></th>
+				<th class="actions"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach ($lists as $list): ?>
+				<tr class="has-relative">
+					<td class="is_default">
+						<?php if ($list->getIsDefault()): ?>
+							<span class="icon_d active"><input type="radio" checked name="is_default" /></span>
+						<?php else: ?>
+							<span class="icon_d"><input type="radio" name="is_default" onclick="window.location.assign('<?php echo $this->getUrl('amlist/index/setDefaultList', array('id'=>$list->getListId()))?>')" /></span>
+						<?php endif ?>
+						<span class="toogle_this_elm visible-mobile-elm"></span>
+					</td>
+					<td><?php echo $list->getTitle() ?></td>
+					<td class="total_items"><?php echo $block->getCountItems($list->getListId()) ?></td>
+					<td class="actions visible-destop-elm">
+						<a href="<?php echo $this->getUrl('amlist/index/editList/id/'.$list->getListId()) ?>">
+							<span class="icon"><img src="<?php echo $this->getViewFileUrl('Astir_FavList::images/icon-edit-amlist.webp.png'); ?>" alt="" /></span>
+							<span class="title"><?= __("View/Edit") ?></span></a>
+						<?php if($list->getTitle() != 'Recent Ordered Products'): ?>
+							<a href="<?php echo $this->getUrl('amlist/index/cartAction',array('id'=>$list->getListId())) ?>">
+								<span class="icon"><img src="<?php echo $this->getViewFileUrl('Astir_FavList::images/icon-add-to-cart-amlist.webp.png'); ?>" alt="" /></span>
+								<span class="title"><?= __("Add to Cart") ?></span></a>
+						<?php endif ?>
+						<a href="<?php echo $this->getUrl('amlist/index/history',array('id'=>$list->getListId())) ?>">
+							<span class="icon"><img src="<?php echo $this->getViewFileUrl('Astir_FavList::images/icon-history-amlist.webp.png'); ?>" alt="" /></span>
+							<span class="title"><?= __("History") ?></span></a>
+						<?php if($list->getTitle() != 'Recent Ordered Products'): ?>
+							<a href="<?php echo $this->getUrl('amlist/index/deleteList', array('id'=>$list->getListId())) ?>" onclick="return confirm('<?= __('Are you sure?'); ?>')">
+								<span class="icon"><img src="<?php echo $this->getViewFileUrl('Astir_FavList::images/icon-remove-amlist.png'); ?>" alt="" /></span>
+								<span class="title"><?= __("Remove") ?></span>
+							</a>
+						<?php endif ?>
+					</td>
+				</tr>
+				<tr class="mobile-version">
+					<td class="actions" colspan="4">
+						<a href="<?php echo $this->getUrl('amlist/index/editList/id/'.$list->getListId()) ?>">
+							<span class="icon"><img src="<?php echo $this->getViewFileUrl('Astir_FavList::images/icon-edit-amlist.webp.png'); ?>" alt="" /></span>
+							<span class="title"><?= __("View/Edit") ?></span></a>
+						<?php if($list->getTitle() != 'Recent Ordered Products'): ?>
+							<a href="<?php echo $this->getUrl('amlist/index/cartAction',array('id'=>$list->getListId())) ?>">
+								<span class="icon"><img src="<?php echo $this->getViewFileUrl('Astir_FavList::images/icon-add-to-cart-amlist.webp.png'); ?>" alt="" /></span>
+								<span class="title"><?= __("Add to Cart") ?></span></a>
+						<?php endif ?>
+						<a href="<?php echo $this->getUrl('amlist/index/history',array('id'=>$list->getListId())) ?>">
+							<span class="icon"><img src="<?php echo $this->getViewFileUrl('Astir_FavList::images/icon-history-amlist.webp.png'); ?>" alt="" /></span>
+							<span class="title"><?= __("History") ?></span></a>
+						<?php if($list->getTitle() != 'Recent Ordered Products'): ?>
+							<a href="<?php echo $this->getUrl('amlist/index/deleteList', array('id'=>$list->getListId())) ?>" onclick="return confirm('<?= __('Are you sure?'); ?>')">
+								<span class="icon"><img src="<?php echo $this->getViewFileUrl('Astir_FavList::images/icon-remove-amlist.png'); ?>" alt="" /></span>
+								<span class="title"><?= __("Remove") ?></span>
+							</a>
+						<?php endif ?>
+					</td>
+				</tr>
+				<tr class="has-bor-dashed visible-mobile-elm">
+					<td colspan="4" style="padding: 0"></td>
+				</tr>
+			<?php endforeach ?>
+		</tbody>
+	</table>
+<?php endif ?>

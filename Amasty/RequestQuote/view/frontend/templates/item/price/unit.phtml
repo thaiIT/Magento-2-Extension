@@ -1,0 +1,26 @@
+<?php
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_RequestQuote
+ */
+?>
+<?php
+/** @var \Amasty\RequestQuote\Block\Cart\Item\Price\Renderer $block */
+$item = $block->getItem();
+?>
+<div class="field price">
+    <div class="control price">
+        <?= $block->escapeHtml($block->getCurrencySymbol()) ?>
+        <input id="cart-<?= $block->escapeHtml($item->getId()) ?>-price"
+               name="cart[<?= $block->escapeHtml($item->getId()) ?>][price]"
+               data-cart-item-id="<?= $block->escapeHtml($item->getSku()) ?>"
+               value="<?= $block->escapeHtml($block->getInputPrice()) ?>"
+               type="number"
+               size="4"
+               title="<?= $block->escapeHtml(__('Price')) ?>"
+               class="input-text price amquotereq-input"
+               data-validate="{required:true,'validate-greater-than-zero':true}"
+               data-role="cart-item-price" />
+    </div>
+</div>

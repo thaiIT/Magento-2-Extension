@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<add id="MGS_FShippingBar::fshippingbar" title="FShippingBar" module="MGS_FShippingBar" sortOrder="10" resource="MGS_FShippingBar::fshippingbar"/>
+		<add id="MGS_FShippingBar::fshippingbar_setting" title="Setting" action="adminhtml/system_config/edit/section/mgs_fshippingbar" module="MGS_FShippingBar" sortOrder="1" resource="MGS_FShippingBar::fshippingbar_setting" parent="MGS_FShippingBar::fshippingbar"/>
+	</menu>
+</config>

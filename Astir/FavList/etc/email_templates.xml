@@ -1,0 +1,3 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="favlist_transactional_email_reminder" label="FavList reminder" file="fav_reminder.html" type="html" module="Astir_FavList" area="frontend"/>
+</config>

@@ -1,0 +1,4 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$cartDataSession = $objectManager->create("Magento\Checkout\CustomerData\Cart")->getSectionData();
+?>

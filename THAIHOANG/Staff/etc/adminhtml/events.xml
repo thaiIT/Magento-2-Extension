@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="staff_savedata">
+        <observer name="thaihoang_staff_savedata" instance="THAIHOANG\Staff\Observer\SaveData" />
+    </event>
+</config>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Core/etc/config.xsd">
+    <default>
+        <mgs_fshippingbar>
+            <general>
+                <enable>0</enable>
+                <customer_groups>0</customer_groups>
+                <fshipping_goal>100</fshipping_goal>
+            </general>
+            <where_to_display>
+            	<pages>all</pages>
+            	<layout_position>position_page_top</layout_position>
+            	<number_pageload>3</number_pageload>
+            </where_to_display>
+            <content_fshipping>
+            	<empty_goal>Free shipping on orders over {{ruleGoal}}</empty_goal>
+            	<before_achieved_goal>Only {{ruleGoalLeft}} left for free shipping</before_achieved_goal>
+            	<after_achieved_goal>Great! your order will be delivered for free!</after_achieved_goal>
+            </content_fshipping>
+            <design_fshipping>
+                <font>Open Sans</font>
+                <font_size>16</font_size>
+                <font_weight>500</font_weight>
+                <font_color>#ffffff</font_color>
+                <font_color_of_goal>#f57646</font_color_of_goal>
+                <background_color>#1979c3</background_color>
+                <text_align>Center</text_align>
+            </design_fshipping>
+        </mgs_fshippingbar>
+    </default>
+</config>

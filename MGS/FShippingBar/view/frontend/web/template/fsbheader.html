@@ -1,0 +1,13 @@
+<div class="fsb-header-mgs">
+	<!-- ko ifnot: cart().summary_count > 0 -->
+		<span data-bind="html: empty_goal()"></span>
+	<!-- /ko -->
+	<!-- ko if: cart().summary_count > 0 -->
+		<!-- ko if: cart().finalcost >= cart().freeshippinggoal -->
+			<span data-bind="html: cart().after_achieved_goal"></span>
+		<!-- /ko -->
+		<!-- ko if: cart().finalcost < cart().freeshippinggoal -->
+			<span data-bind="html: before_achieved_goal()"></span>
+		<!-- /ko -->
+	<!-- /ko -->
+<div>

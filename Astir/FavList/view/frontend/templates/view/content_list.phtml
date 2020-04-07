@@ -1,0 +1,355 @@
+<?php
+$listId = $block->getListId();
+$groupId = $this->helper("Astir\Customization\Helper\Data")->getCustomerGroupId();
+$groupID_array = explode(",", $groupId);
+$priceHelper = $this->helper("MageB2B\PricesystemCore\Helper\Data");
+$imageDisplayArea = 'category_page_grid';
+if(!$listId) {
+	$actionName = $this->getUrl('*/*/save');
+} else {
+	$actionName = $this->getUrl('*/*/save',['list_id' => $listId]);
+	$listCollection = $this->getListCollectionById($listId);
+	$title = $listCollection->getTitle();
+	$listProductBlock = $block->getLayout()->createBlock('Magento\Catalog\Block\Product\ListProduct');
+	$order_months = $block->getOrderMonths();
+}
+?>
+<div class="page-head-top">
+	<h1 class="page-title"><span><?php echo __("Favourites") ?></span></h1>
+	<form class="form-validated-active form-save-name" action="<?= $actionName ?>" method="post">
+		<div class="input-box input-favlist">
+			<input type="text" name="list_title" <?php if($listId) { echo "value='".$title."'"; } ?> title="<?= __('Name') ?>" class="" />
+		</div>
+		<div class="action-box">
+			<button class="button" type="submit"><span><?= __('Save Name') ?></span></button>
+		</div>
+	</form>
+	<?php if ($listId): ?>
+		<form action="<?php echo $this->getUrl('amlist/index/reminder', ['id'=>$listId]) ?>" method="post" id="form-reminder" class="form-save-reminder">
+			<p class="reminder" for="reminder"><span><?= __('Send Reminder') ?></span></p>
+			<div class="control">
+				<select name="reminder">
+					<?php if(!$listCollection->getSendReminder()): ?>
+						<option><?= __('Please select:') ?></option>
+					<?php endif ?>
+					<option value="1" <?php if($listCollection->getSendReminder() == 1): ?>selected="selected"<?php endif ?>><?php echo __('Daily') ?></option>
+					<option value="2" <?php if($listCollection->getSendReminder() == 2): ?>selected="selected"<?php endif ?>><?php echo __('Weekly') ?></option>
+					<option value="3" <?php if($listCollection->getSendReminder() == 3): ?>selected="selected"<?php endif ?>><?php echo __('Fortnightly') ?></option>
+					<option value="4" <?php if($listCollection->getSendReminder() == 4): ?>selected="selected"<?php endif ?>><?php echo __('Monthly') ?></option>
+				</select>
+			</div>
+			<div class="actions-toolbar">
+				<div class="primary">
+					<button type="submit" title="<?php echo __('Update') ?>" class="button">
+						<span><?php echo __('Update') ?></span>
+					</button>
+				</div>
+			</div>
+		</form>
+	<?php endif ?>
+	<div class="popup-video">
+		<script charset="ISO-8859-1" src="//fast.wistia.com/assets/external/E-v1.js"async></script>
+		<div class="wistia_embed wistia_async_zi009m7mns popover=true popoverContent=html">
+			<a class="button-what-sublogin" href="#"><i class="far fa-play-circle"></i><span><?php echo __(' Watch Fav List Features'); ?></span></a>
+		</div>
+	</div>
+</div>
+<?php if($listId): ?>
+	<div class="hide" id="listid" list_id="<?= $listId ?>"></div>
+	<?php $itemCollection = $this->getItemsByListId($listId); ?>
+	<?php if (count($itemCollection)): ?>
+		<form action="#" class="form-search-favlist">
+			<div class="search-list-item-amlist form-validated-active input-favlist">
+			    <input type="text" id="input-search-item" class="input-search-item" name="input-search-item" placeholder="Search our product ..." />
+			</div>
+			<div class="action-box">
+				<button type="submit" class="btn-search-item"><?= __("Search") ?></button>
+			</div>
+		</form>
+		<!-- -------------------------------------------------------------------------------------------- -->
+		<div id="table-item-detail">
+			<table id="amlist-table" class="amlist-table visible-destop-elm">
+				<thead>
+					<tr class="first last">
+						<th align="center" class="checkboxitem"><input type="checkbox" name="checkall" id="checkallinput"></th>
+						<th><?= __('Code') ?></th>
+						<th><?= __('Product') ?></th>
+						<th><?= __('Available') ?></th>
+						<?php foreach ($order_months as $month): ?>
+						    <th><?php echo date('M', strtotime($month['from'])); ?></th>
+						<?php endforeach; ?>
+						<th class="suggested_stock_item"><?= __('Suggested Stock') ?></th>
+						<th class="hide-on-print"><?= __('Price') ?></th>
+						<th><?= __('Qty') ?></th>
+						<th class="hide-on-print"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($itemCollection as $item): ?>
+						<?php 
+						$_product = $block->getProductById($item->getProductId());
+						$priceHelper->customerId = $block->getCustomerId();
+						$priceHelper->productId = $_product->getId();
+						$priceHelper->customerGroupId = $priceHelper->getCustomer()->getGroupId();
+						$priceHelper->qty = 0;
+						$returnPrices = $priceHelper->processReturnPrices($priceHelper->getReturnPrices(),0);
+						$final_tier_prices = [];
+						foreach ($returnPrices as $returnPrice) {
+						    if ($returnPrice['type'] == 'orig_price') {
+						        continue;
+						    }
+
+						    $returnPrice['entity_id'] = $returnPrice['product_id'];
+						    $returnPrice['customer_group_id'] = $returnPrice['cust_group'];
+						    $returnPrice['value'] = $returnPrice['price'];
+						    $final_tier_prices[] = $returnPrice;
+						}
+
+						usort($final_tier_prices, function ($a, $b) {
+						    return $b['qty'] - $a['qty'];
+						});
+
+						if (!count($final_tier_prices)) {
+						    $addPrice = [
+						        'product_id' => $_product->getId(),
+						        'qty' => '1.0000',
+						        'price' => $_product->getFinalPrice(),
+						        'customer_id' => $block->getCustomerId(),
+						        'type' => 'pricelist',
+						        'website_price' => $_product->getFinalPrice(),
+						        'price_qty' => '1.0000',
+						        'cust_group' => $groupID_array,
+						        'entity_id' => $_product->getId(),
+						        'customer_group_id' => NULL,
+						        'value' => $_product->getFinalPrice(),
+						    ];
+						    $final_tier_prices[] = $addPrice;
+						}
+						?>
+						<tr>
+							<td align="center"><input type="checkbox" checked="checked"></td>
+							<td class="code-amlist"><?= $_product->getSku() ?></td>
+							<td class="product-name-amlist">
+								<?php  
+								$productImage = $block->getImage($_product, $imageDisplayArea);
+								echo $productImage->toHtml();
+								?>
+							</td>
+							<td class="stock-status">
+								<?php if ($_product->isAvailable()): ?>
+									<span><?= __("In stock") ?></span>
+								<?php else: ?>
+									<span><?= __("Out of stock") ?></span>
+								<?php endif ?>
+							</td>
+							<?php foreach ($order_months as $month): ?>
+	                        	<?php
+		                        $count_item = 0;
+		                        if (count($month['orders'])) {
+		                            foreach ($month['orders'] as $order) {
+		                                $ordered_items = $order->getAllVisibleItems();
+		                                foreach ($ordered_items as $order_item) {
+		                                    $order_item_data = $order_item->getData();
+		                                    if ($order_item_data['product_id'] == $_product->getId()) {
+		                                        $count_item += (int) $order_item_data['qty_ordered'];
+		                                    }
+		                                }
+		                            }
+		                        }
+		                        ?>
+		                        <td class="a-center">
+		                            <?php echo $count_item ? $count_item : '-'; ?>
+		                        </td>
+		                    <?php endforeach; ?>
+							<td align="center" class="suggested_stock_item"><input type="text" data-id="<?= $item->getItemId() ?>" name="suggested_stock" value="<?= $item->getQty() ?>" /></td>
+							<td class="hide-on-print">
+								<?php foreach ($final_tier_prices as $tiers): ?>
+	                                <?php if ($tiers['entity_id'] == $_product->getId() && ($_product->getFinalPrice() > 0)): ?>
+	                                		<?php if ((int) $item->getQty() >= (int) $tiers['qty']): ?>
+		                                        <?= $this->helper('Magento\Framework\Pricing\Helper\Data')->currency($tiers['value'], true, false) ?>
+		                                        <?php break; ?>
+	                                        <?php endif ?>
+	                                <?php endif; ?>
+	                            <?php endforeach; ?>
+							</td>
+							<td>
+								<?php $postParams = $listProductBlock->getAddToCartPostParams($_product); ?>
+	                            <form class="favlist-form form-validated-active form-append-error" data-role="tocart-form" data-product-sku="<?= $block->escapeHtml($_product->getSku()) ?>" action="<?= /* @NoEscape */ $postParams['action'] ?>" method="post">
+	                                <input type="hidden" name="product" value="<?= $postParams['data']['product'] ?>">
+	                                <input type="hidden" name="uenc" value="<?= $postParams['data']['uenc'] ?>">
+	                            	<input type="hidden" name="form_key" value="<?= $block->getFormKey() ?>" />
+	                                <div class="control input-favlist">
+	                                    <input type="number"
+	                                        name="qty"
+	                                        title="<?= __('Qty') ?>"
+	                                        placeholder="<?= __('Qty') ?>"
+	                                        class="input-text"
+	                                        min="1"
+	                                    />
+	                                </div>
+	                                <button type="submit"
+	                                        title="<?= $block->escapeHtml(__('Add to Cart')) ?>"
+	                                        class="action tocart primary hide-on-print">
+	                                    <span><?= __('ADD') ?></span>
+	                                </button>
+	                            </form>
+							</td>
+							<td align="center" class="hide-on-print"><a href="<?php echo $this->getUrl('amlist/index/deleteItem/', array('id'=>$item->getItemId(),"listId"=>$listId)) ?>" onclick="return confirm('<?= __('Are you sure?'); ?>')"><span><i class="fal fa-times"></i></span></a></td>
+						</tr>
+					<?php endforeach ?>
+				</tbody>
+			</table>
+			<table id="amlist-table-mobile" class="amlist-table visible-mobile-elm hide-on-print">
+				<thead>
+					<tr class="first last">
+						<th colspan="2" class="mobile-code"><?= __('Code') ?></th>
+						<th><?= __('Product') ?></th>
+						<th class="hide-on-print"><?= __('Price') ?></th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($itemCollection as $item): ?>
+						<?php 
+						$_product = $block->getProductById($item->getProductId());
+						$priceHelper->customerId = $block->getCustomerId();
+						$priceHelper->productId = $_product->getId();
+						$priceHelper->customerGroupId = $priceHelper->getCustomer()->getGroupId();
+						$priceHelper->qty = 0;
+						$returnPrices = $priceHelper->processReturnPrices($priceHelper->getReturnPrices(),0);
+						$final_tier_prices = [];
+						foreach ($returnPrices as $returnPrice) {
+						    if ($returnPrice['type'] == 'orig_price') {
+						        continue;
+						    }
+
+						    $returnPrice['entity_id'] = $returnPrice['product_id'];
+						    $returnPrice['customer_group_id'] = $returnPrice['cust_group'];
+						    $returnPrice['value'] = $returnPrice['price'];
+						    $final_tier_prices[] = $returnPrice;
+						}
+
+						usort($final_tier_prices, function ($a, $b) {
+						    return $b['qty'] - $a['qty'];
+						});
+
+						if (!count($final_tier_prices)) {
+						    $addPrice = [
+						        'product_id' => $_product->getId(),
+						        'qty' => '1.0000',
+						        'price' => $_product->getFinalPrice(),
+						        'customer_id' => $block->getCustomerId(),
+						        'type' => 'pricelist',
+						        'website_price' => $_product->getFinalPrice(),
+						        'price_qty' => '1.0000',
+						        'cust_group' => $groupID_array,
+						        'entity_id' => $_product->getId(),
+						        'customer_group_id' => NULL,
+						        'value' => $_product->getFinalPrice(),
+						    ];
+						    $final_tier_prices[] = $addPrice;
+						}
+						?>
+						<tr class="has-relative">
+							<td align="center">
+								<input type="checkbox" checked="checked">
+								<span class="toogle_this_elm visible-mobile-elm"></span>
+							</td>
+							<td class="code-amlist"><span><?= $_product->getSku() ?></span></td>
+							<td class="product-name-amlist">
+								<?php  
+								$productImage = $block->getImage($_product, $imageDisplayArea);
+								echo $productImage->toHtml();
+								?>
+							</td>
+							<td class="hide-on-print">
+								<?php foreach ($final_tier_prices as $tiers): ?>
+	                                <?php if ($tiers['entity_id'] == $_product->getId() && ($_product->getFinalPrice() > 0)): ?>
+	                                		<?php if ((int) $item->getQty() >= (int) $tiers['qty']): ?>
+		                                        <?= $this->helper('Magento\Framework\Pricing\Helper\Data')->currency($tiers['value'], true, false) ?>
+		                                        <?php break; ?>
+	                                        <?php endif ?>
+	                                <?php endif; ?>
+	                            <?php endforeach; ?>
+							</td>
+						</tr>
+						<tr class="mobile-version">
+							<td colspan="4">
+								<div class="productname-m">
+									<span class="title-info-m"><?php echo __("Product name ") ?></span>
+									<span class="data-item"><?php echo $_product->getName() ?></span>
+								</div>
+								<div class="available-m">
+									<span class="title-info-m"><?php echo __("Available ") ?></span>
+									<?php if ($_product->isAvailable()): ?>
+										<span><?= __("In stock") ?></span>
+									<?php else: ?>
+										<span><?= __("Out of stock") ?></span>
+									<?php endif ?>
+								</div>
+								<div class="suggested_stock_m">
+									<span class="title-info-m"><?php echo __("Suggested Stock") ?></span>
+									<span><input type="text" data-id="<?= $item->getItemId() ?>" name="suggested_stock" value="<?= $item->getQty() ?>" /></span>
+								</div>
+								<div class="add-cart-m">
+									<span class="title-info-m"><?php echo __("Qty") ?></span>
+									<?php $postParams = $listProductBlock->getAddToCartPostParams($_product); ?>
+				                    <form class="favlist-form form-validated-active form-append-error" data-role="tocart-form" data-product-sku="<?= $block->escapeHtml($_product->getSku()) ?>" action="<?= /* @NoEscape */ $postParams['action'] ?>" method="post">
+				                        <input type="hidden" name="product" value="<?= $postParams['data']['product'] ?>">
+				                        <input type="hidden" name="uenc" value="<?= $postParams['data']['uenc'] ?>">
+				                    	<input type="hidden" name="form_key" value="<?= $block->getFormKey() ?>" />
+				                        <div class="control input-favlist">
+				                            <input type="number"
+				                                name="qty"
+				                                title="<?= __('Qty') ?>"
+				                                placeholder="<?= __('Qty') ?>"
+				                                class="input-text"
+				                                min="1"
+				                            />
+				                        </div>
+				                        <button type="submit"
+				                                title="<?= $block->escapeHtml(__('Add to Cart')) ?>"
+				                                class="action tocart primary hide-on-print">
+				                            <span><?= __('ADD') ?></span>
+				                        </button>
+				                    </form>
+								</div>
+							</td>
+						</tr>
+					<?php endforeach ?>
+				</tbody>
+			</table>
+		</div>
+		<!-- -------------------------------------------------------------------------------------------- -->
+		<div class="buttons-set hide-on-print">
+		    <div class="pull-left contain-button-left">
+		    	<button class="btn-print">
+		            <span><?= __('Print'); ?></span>
+		        </button>
+		        <button class="btn-add-multiple">
+		            <span><?= __('Add Multiple'); ?></span>
+		        </button>
+		    </div>
+		    <div class="pull-right">
+			    <a href="<?php echo $this->getUrl(); ?>" class="btn btn-continue">
+					<span><?= __('Continue Shopping'); ?></span>
+			    </a>
+			    <button type="button" class="btn-update-suggestedstock">
+			        <span><?= __('Update'); ?></span>
+			    </button>
+			    <button type="button" class="btn-save-all">
+			        <span><?= __('Add All'); ?></span>
+			    </button>
+		    </div>
+		</div>
+		<!-- -------------------------------------------------------------------------------------------- -->
+		<script type="text/x-magento-init">
+		    {
+		        "[data-role=tocart-form], .form.map.checkout": {
+		            "catalogAddToCart": {}
+		        }
+		    }
+		</script>
+	<?php else: ?>
+		<div class="message info empty"><div><?= /* @escapeNotVerified */ __('Start adding items from the <a href="%1">catalog</a> to your favorites right now!', $this->getUrl()) ?></div></div>
+	<?php endif ?>
+<?php endif ?>

@@ -1,0 +1,9 @@
+#mColorPicker {
+	overflow:hidden
+}
+#mColorPickerFooter a {
+	display:none !important
+}
+body.color-show {
+	position: relative;
+}

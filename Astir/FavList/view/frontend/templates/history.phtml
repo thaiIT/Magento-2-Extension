@@ -1,0 +1,90 @@
+<?php
+$listId = $block->getList()->getId();
+$actionName = $this->getUrl('*/*/save',['list_id' => $listId]);
+$title = $block->getList()->getTitle();
+$listCollection = $block->getList();
+?>
+<div class="page-head-top">
+    <h1 class="page-title"><span><?php echo __("Favourites") ?></span></h1>
+    <form class="form-validated-active form-save-name" action="<?= $actionName ?>" method="post">
+        <div class="input-box input-favlist">
+            <input type="text" name="list_title" <?php if($listId) { echo "value='".$title."'"; } ?> title="<?= __('Name') ?>" class="" />
+        </div>
+        <div class="action-box">
+            <button class="button" type="submit"><span><?= __('Save Name') ?></span></button>
+        </div>
+    </form>
+    <?php if ($listId): ?>
+        <form action="<?php echo $this->getUrl('amlist/index/reminder', ['id'=>$listId]) ?>" method="post" id="form-reminder" class="form-save-reminder">
+            <p class="reminder" for="reminder"><span><?= __('Send Reminder') ?></span></p>
+            <div class="control">
+                <select name="reminder">
+                    <?php if(!$listCollection->getSendReminder()): ?>
+                        <option><?= __('Please select:') ?></option>
+                    <?php endif ?>
+                    <option value="1" <?php if($listCollection->getSendReminder() == 1): ?>selected="selected"<?php endif ?>><?php echo __('Daily') ?></option>
+                    <option value="2" <?php if($listCollection->getSendReminder() == 2): ?>selected="selected"<?php endif ?>><?php echo __('Weekly') ?></option>
+                    <option value="3" <?php if($listCollection->getSendReminder() == 3): ?>selected="selected"<?php endif ?>><?php echo __('Fortnightly') ?></option>
+                    <option value="4" <?php if($listCollection->getSendReminder() == 4): ?>selected="selected"<?php endif ?>><?php echo __('Monthly') ?></option>
+                </select>
+            </div>
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <button type="submit" title="<?php echo __('Update') ?>" class="button">
+                        <span><?php echo __('Update') ?></span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    <?php endif ?>
+    <div class="popup-video">
+        <script charset="ISO-8859-1" src="//fast.wistia.com/assets/external/E-v1.js"async></script>
+        <div class="wistia_embed wistia_async_zi009m7mns popover=true popoverContent=html">
+            <a class="button-what-sublogin" href="#"><i class="far fa-play-circle"></i><span><?php echo __(' Watch Fav List Features'); ?></span></a>
+        </div>
+    </div>
+</div>
+<?php $items = $block->getItems(); ?>
+<div class="favourite-history">
+    <h4><?php echo __('Current Products'); ?></h4>
+    <hr/>
+    <?php if (count($items)): ?>
+        <?php $flag = true; ?>
+        <ul>
+            <?php foreach ($items as $item): ?>
+                <?php
+                $product_id = $item->getData('product_id');
+                $orders = $block->getOrderData($product_id);
+                ?>
+                <?php if (count($orders)): ?>
+                    <?php
+                    $flag = false;
+                    $orders_data = $orders->getData();
+                    $last_purchased = date('d/m/y', strtotime($orders_data[0]['created_at']));
+                    $last_qty = (int) $orders_data[0]['qty_ordered_item'];
+                    ?>
+                    <li>
+                        <p><strong><?php echo $block->getProductById($product_id)->getName(); ?></strong></p>
+                        <p><?php echo $block->getProductById($product_id)->getSku(); ?></p>
+                        <p><?php echo __('Last Purchased') . ': ' . $last_purchased . ' (' . $last_qty . ')'; ?></p>
+                        <p><a href="<?php echo $this->getUrl('amlist/index/deleteItem', array('id' => $item->getId(), 'listId' => $listId)); ?>" onclick="return confirm('<?php echo __('Are you sure?'); ?>')" class="link-remove" ><?php echo __('Remove'); ?> x</a></p>
+                    </li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            <?php if ($flag): ?>
+                <li>
+                    <div class='message-notice message notice'>
+                        <div>
+                            <?php echo __('You haven\'t history of item.'); ?>
+                        </div>
+                    </div>
+                </li>
+            <?php endif ?>
+        </ul>
+    <?php else: ?>
+        <p><?php echo __('Start adding items from the <a href="%1">catalog</a> to your favourites right now!', $this->getUrl()) ?></p>
+        <div class="button-set">
+            <a href="<?php echo $this->getUrl('amlist') ?>">&laquo; <?php echo __('All Folders'); ?></a> 
+        </div>
+    <?php endif; ?>
+</div>

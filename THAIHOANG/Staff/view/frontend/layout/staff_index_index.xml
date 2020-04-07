@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block name="thai_staff" class="THAIHOANG\Staff\Block\Staff" template="THAIHOANG_Staff::staff.phtml">
+                <block class="Magento\Theme\Block\Html\Pager" name="staff_list_pager" as="staff_list_pager" />
+            </block>
+        </referenceContainer>
+    </body>
+</page>

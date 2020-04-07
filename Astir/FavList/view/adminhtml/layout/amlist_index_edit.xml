@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<page layout="admin-2columns-left" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+   <update handle="editor" />
+   <body>
+       <referenceContainer name="left">
+           <block class="Astir\FavList\Block\Adminhtml\FavList\Edit\Tabs" name="Astir_FavList.edit.tabs" />
+       </referenceContainer>
+   		<referenceContainer name="content">
+            <block class="Astir\FavList\Block\Adminhtml\FavList\Edit" name="Astir_FavList.edit" />
+        </referenceContainer>
+   </body>
+</page>

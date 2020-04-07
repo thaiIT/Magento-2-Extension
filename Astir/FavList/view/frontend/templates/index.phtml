@@ -1,0 +1,18 @@
+<?php $urlListAjax = $this->getUrl('amlist/index/listFavAjax'); ?>
+<div class="list-session">
+	<?php //echo $block->getChildHtml();?>
+</div>
+<script>
+    require(['jquery'],function($) {
+        $.ajax({
+            url: "<?= $urlListAjax ?>",
+            type: "POST",
+            dataType: 'json',
+            success: function(successData){
+                if(successData.success == 1) {
+                    $('.list-session').html(successData.content);
+                }
+            }
+        });
+    });
+</script>

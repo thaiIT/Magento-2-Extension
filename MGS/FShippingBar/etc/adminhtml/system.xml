@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+		<tab id="mgs" translate="label" sortOrder="100">
+            <label>MGS</label>
+        </tab>
+        <section id="mgs_fshippingbar" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+            <label>MGS FShippingBar</label>
+            <tab>mgs</tab>
+            <resource>MGS_FShippingBar::fshippingbar_config</resource>
+            <group id="general" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+                <label>General</label>
+                <field id="enable" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="customer_groups" translate="label" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Customer Groups</label>
+                    <source_model>MGS\FShippingBar\Model\Config\Source\Customergroup</source_model>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="fshipping_goal" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Free Shipping Goal</label>
+                    <comment>In base currency</comment>
+                    <validate>required-entry validate-number</validate>
+                </field>
+            </group>
+            <group id="where_to_display" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
+                <label>Where to Display</label>
+                <field id="pages" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Pages</label>
+                    <source_model>MGS\FShippingBar\Model\Config\Source\Pages</source_model>
+                </field>
+                <field id="layout_position" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Layout Position</label>
+                    <source_model>MGS\FShippingBar\Model\Config\Source\LayoutPosition</source_model>
+                </field>
+                 <field id="number_pageload" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display with delay after page load, seconds</label>
+                    <comment>0 - no delay</comment>
+                    <validate>required-entry validate-number</validate>
+                </field>
+            </group>
+            <group id="content_fshipping" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="30">
+                <label>Content</label>
+                <field id="empty_goal" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Content when cart is empty</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="before_achieved_goal" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Content when cart is not empty</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="after_achieved_goal" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Content when goal is reached</label>
+                    <validate>required-entry</validate>
+                </field>
+            </group>
+            <group id="design_fshipping" translate="label " type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="40">
+                <label>Design</label>
+                <field id="font" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Font</label>
+                    <frontend_model>MGS\FShippingBar\Block\Adminhtml\Fields\Fonts</frontend_model>
+                    <source_model>MGS\FShippingBar\Model\Config\Source\Fonts</source_model>
+                    <comment>Most popular Google Fonts are used.</comment>
+                </field>
+                <field id="font_size" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Font Size, px</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="font_weight" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Font Weight</label>
+                    <source_model>MGS\FShippingBar\Model\Config\Source\Fontweight</source_model>
+                </field>
+                <field id="font_color" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Font Color</label>
+                    <frontend_model>MGS\FShippingBar\Block\Adminhtml\Fields\Color</frontend_model>
+                </field>
+                <field id="font_color_of_goal" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Font Color of Goal</label>
+                    <frontend_model>MGS\FShippingBar\Block\Adminhtml\Fields\Color</frontend_model>
+                </field>
+                <field id="background_color" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Background Color</label>
+                    <frontend_model>MGS\FShippingBar\Block\Adminhtml\Fields\Color</frontend_model>
+                </field>
+                <field id="text_align" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Text Align</label>
+                    <source_model>MGS\FShippingBar\Model\Config\Source\Textalign</source_model>
+                </field>
+                <field id="custom_css" translate="label" type="textarea" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom CSS</label>
+                </field>
+            </group>
+            <group id="preview_fshipping" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="50">
+                <label>Preview</label>
+                <field id="before_achieved_goal_preview" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <!-- <frontend_model>MGS\FShippingBar\Block\Adminhtml\System\Preview\BeforeAchievedGoal</frontend_model> -->
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

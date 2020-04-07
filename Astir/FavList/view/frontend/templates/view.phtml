@@ -1,0 +1,45 @@
+<?php 
+$urlListDetailAjax = $this->getUrl('amlist/index/listDetailFavAjax');
+$params = $this->getRequest()->getParams();
+$listId = isset($params['id']) ? $params['id'] : false;
+?>
+<div class="list-detail-session">
+	<?php //echo $block->getChildHtml();?>
+</div>
+<script>
+    require(['jquery'],function($) {
+        $.ajax({
+            url: "<?= $urlListDetailAjax ?>",
+            <?php if ($listId): ?>
+            	data: {list_id:<?php echo $listId; ?>},
+            <?php endif ?>
+            type: "POST",
+            dataType: 'json',
+            success: function(successData){
+                if(successData.success == 1) {
+                    $('.list-detail-session').html(successData.content).trigger('contentUpdated');
+                } else {
+                	$('.list-detail-session').html(successData.message).trigger('contentUpdated');
+                }
+            }
+        });
+    });
+</script>
+
+<div id="popup-updated-message" style="display: none;" >
+    <div>
+        <?php /* @noEscape */ echo __('Suggested stock have been successfully updated.') ?>
+    </div>
+</div>
+
+<div id="popup-addtocart-message" style="display: none;" >
+    <div>
+        <?php /* @noEscape */ echo __('Product add to cart have been successfully.') ?>
+    </div>
+</div>
+
+<div id="popup-updatemulti-message" style="display: none;" >
+    <div>
+        <?php /* @noEscape */ echo __('Suggested stock and product add to cart have been successfully.') ?>
+    </div>
+</div>
